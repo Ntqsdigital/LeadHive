@@ -28,8 +28,29 @@
     .nav{position:sticky;top:0;backdrop-filter:blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));z-index:40;border-bottom:1px solid rgba(255,255,255,0.02)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between}
     .nav-left{display:flex;align-items:center;gap:12px}
-    .nav-logo{width:100px;height:100px;border-radius:12px;background:#ffffff;padding:8px;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center}
-    .nav-logo img{width:84%;height:84%;object-fit:contain;display:block}
+
+    /* ---------- CHANGED: show only logo image (no outer white box/border) ---------- */
+    .nav-logo{
+      /* removed background, padding and border so only the image shows */
+      width:auto;
+      height:auto;
+      background:transparent;
+      border:none;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .nav-logo img{
+      width:72px;          /* adjust the visible logo size here */
+      height:auto;
+      object-fit:contain;
+      display:block;
+      border-radius:8px;   /* optional small radius on the image itself */
+      background:transparent;
+    }
+    /* --------------------------------------------------------------------------- */
+
     .nav-brand{font-weight:800;color:var(--primary-blue)}
     .nav-right{display:flex;align-items:center;gap:12px}
     .nav-link{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px}
@@ -56,11 +77,13 @@
     .device-screen img{max-width:100%;max-height:100%;object-fit:contain;display:block;cursor:pointer;transition:transform .28s ease}
     .device-screen img:hover{transform:scale(1.02)}
 
-    /* slider arrows */
-    .slider-control{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.95);border:1px solid rgba(15,23,36,0.06);box-shadow:0 8px 24px rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20}
-    .slider-prev{left:-64px}
-    .slider-next{right:-64px}
+    /* slider arrows
+       ---------- CHANGED: hide arrows ----------
+       If you want arrows back later set display:flex instead of none.
+    */
+    .slider-control{display:none !important}
     .slider-control svg{width:18px;height:18px;fill:#0f1724}
+    /* ----------------------------------------------------- */
 
     /* thumbnail strip */
     .screenshots{padding:44px 0}
@@ -218,7 +241,7 @@
       <div class="nav-left">
         <div class="nav-logo"><img src="leadhive-logo.png" alt="LeadHive" /></div>
         <div class="nav-brand" style="font-size:26px; font-weight:800; display:flex; align-items:center; gap:6px;">
-          <span style="color:#0A4C9A;">Lead</span><span style="color:#F28C28;">Hive</span>
+          <span style="color:#0A2E5C;">Lead</span><span style="color:#F5B400;">Hive</span>
         </div>
       </div>
       <div class="nav-right">
@@ -251,6 +274,7 @@
         </div>
 
         <div class="hero-right">
+          <!-- arrows are present in DOM for accessibility/markup but hidden via CSS -->
           <div class="slider-control slider-prev" id="sliderPrev" title="Previous">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
           </div>
@@ -417,7 +441,7 @@
     <!-- HOW IT WORKS -->
     <section class="section">
       <div class="container">
-        <h2>How LeadHive works</h2>
+        <h2>How LeadHive works </h2>
         <ol class="steps">
           <li>Search any category in Google Maps (e.g. "salons in Bengaluru").</li>
           <li>Open LeadHive and click <strong>Auto-Extract Leads</strong>.</li>
@@ -605,6 +629,7 @@
 
     // hero click opens lightbox
     if (mainImg) mainImg.addEventListener('click', () => openLightbox(current));
+    // arrows are hidden but we keep guards in case you re-enable them later
     if (prevBtn) prevBtn.addEventListener('click', () => { setActive(current - 1); resetHeroAutoplay(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { setActive(current + 1); resetHeroAutoplay(); });
 
